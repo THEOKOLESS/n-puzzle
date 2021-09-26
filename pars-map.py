@@ -37,6 +37,9 @@ def check_map_validity(lines):
                         print("invalid map")
                         exit() 
                 count += 1
+        else:
+            print("invalid map")
+            exit() 
     if len(all_nbr) == len(set(all_nbr)) and len(all_nbr) == nxn: # pas de doublons et colones ok
         while j < nxn - 1:
             j+=1
@@ -44,9 +47,12 @@ def check_map_validity(lines):
         if check_validity_nbr != sum(all_nbr):
             print("invalid map")
             exit()
+    else:
+        print("invalid map")
+        exit() 
     #         print (f"{check_validity_nbr}, {j}" )
 
-    # print(all_nbr)
+    print(all_nbr)
     # print(sum(all_nbr))
 
 def clear_comments(lines):
