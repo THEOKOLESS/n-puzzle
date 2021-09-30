@@ -13,86 +13,69 @@ def main():
             exit()
         lines = clear_comments(lines)
         n = check_map_validity(lines)
-        #print(f"n -> {n}")
-
-        target = build_target(n) 
-        print(f"target offi -> {target}")
-        #print(f"YYYEEEES {lines}")
+        target = build_target(n)
+        is_it_solvable(target, lines)
+        # print(lines)
+       # print(f"target offi -> {target}")
         
     else:
         print("usage : incorrect")
+
+def is_it_solvable(target, lines):
+    puzzle = make_clean_list(lines[1:])
+    start = 0
+    i = 1
+    until = i
+    cycle = []
+    cycle.append(i)
+    print(f"puzzle -> {puzzle}")
+    print(f"target ->   {target}")
+    while start != until:
+        start = puzzle.index(i)
+        print(f"index de {i} -> {start}, donc {i} est a la place de {target[start]}")
+        i = target[start]
+        cycle.append(i)
+        # i = start
+        print(f"cycle -> {cycle}")
+
+
+    # i = 
+
+    # while s
+
 def build_target(n):
-    # i = 0
     a = 0
-    # b = 1
-    # j = 2
     target_index = 0
     target_filler = 1
-    target = ['' for i in range(n * n)]
+    target = ['' for _ in range(n * n)]
 
-    # while i < n:
-    # for i in range(n):
-    #     target[i] = target_filler
-    #     target_filler += 1
-        # i += 1
-    # for x in range(n - a):
-    #     target[n * j - b] = target_filler
-    #     j+=1
-    #     target_filler += 1
-    # b += 1 
-    # j -= 1
-    # for x in range(n - a):
-    #     test = (n * j) - x - b
-    #     print(f"test->{test}")
-    #     target[test] = target_filler
-    #     target_filler += 1
-    # a += 1
-    # b += n - a
-    # for x in range(n - a):
-    #     j -= 1
-    #     test = (n * j) - b 
-    #     print(f"test2->{test}")
-    #     target[test] = target_filler
-    #     target_filler += 1
-    # # a += 1
-    # for x in range(n - a):
-    #     target[test + x + 1] = target_filler
-    #     target_filler += 1
-    while target_filler <  len(target):
+    while a < n:
         target_index = horizontal_up(target, target_filler, n, a, target_index)
         target_filler += n - a
         a += 1
-        
- 
-
+        if a == n:
+             break
         target_index = vertical_down(target, target_filler, n, a, target_index)
+     
         target_filler += n - a
       
         target_index = horizontal_down(target, target_filler, n, a, target_index)
+        
         target_filler += n - a
      
         a += 1
+        if a == n:
+            break
         target_index = vertical_up(target, target_filler, n, a, target_index)
+  
         target_filler += n - a
-     
-        print(f"target -> {target} target_filler -> {target_filler} target_index -> {target_index}")
-        break
 
-        # break
-        # horizontal_down()
-        # vertical_up()
-        # horizontal_up()
-
-
-        # for x in range(n - a):
-        #     target_index = n * j - b
-        #     target[target_index] = target_filler
-        #     j+=1
-        #     target_filler += 1
     return target
+# def list_without_empty_strings(a_list):
+#      filter_object = filter(lambda x: x != "", a_list)
+#      return(list(filter_object))
 def horizontal_up(target, target_filler, n, a, target_index):
-    for x in range(n - a):
-       
+    for _ in range(n - a):
         if target_filler == len(target):
             target_filler = 0
         target[target_index] = target_filler
@@ -102,55 +85,60 @@ def horizontal_up(target, target_filler, n, a, target_index):
 
 
 def horizontal_down(target, target_filler, n, a, target_index):
-    for x in range(n - a):
+    for _ in range(n - a):
         if target_filler == len(target):
             target_filler = 0
-        # print(target_index)
         target[target_index] = target_filler
         target_index -= 1
         target_filler += 1
     return target_index + 1
+
 def vertical_down(target, target_filler, n, a, target_index):
-    # j = 1
-    for x in range(n - a):
+    for _ in range(n - a):
         target_index = target_index + n 
         target[target_index] = target_filler
-
-        # j+=1
         target_filler += 1
     return target_index - 1
+
 def vertical_up(target, target_filler, n, a, target_index):
-    for x in range(n - a):
+    for _ in range(n - a):
         target_index = target_index - n 
         target[target_index] = target_filler
         target_filler += 1
-    return target_index
+    return target_index + 1
+def make_clean_list(lines):
+    all_nbr = []
+    for line in lines:
+        if re.match("^[0-9 ]+$", line):
+            i = 0
+            while i < len(line.split()):
+                all_nbr.append(int(line.split()[i]))
+                i+=1            
+        else:
+            print("invalid map")
+            return None
+    return all_nbr
+        
+
+
+
 
 def check_map_validity(lines):
-    count = 0
     all_nbr = []
     check_validity_nbr = 0
     j = 0
     if re.match("^[0-9 ]+$", lines[0]):
         n = int(lines[0])
         nxn = n * n
-       
+        #print(f"{lines[1:]} -> lines")
         if n >= 3 and len(lines) - 1 == n: #puzzle and row number are coherent
-            for line in lines:
-                if count > 0:
-                    if re.match("^[0-9 ]+$", line):
-                        i = 0
-                        while i < len(line.split()):
-                            all_nbr.append(int(line.split()[i]))
-                            i+=1
-                        #print(line)
-                    else:
-                        print("invalid map")
-                        exit() 
-                count += 1
+             all_nbr = make_clean_list(lines[1:])
+             if all_nbr == None:
+                exit() 
         else:
             print("invalid map")
             exit()
+   # print(f"{all_nbr} -> all_nbr")
     if len(all_nbr) == len(set(all_nbr)) and len(all_nbr) == nxn: # pas de doublons et colones ok
         while j < nxn - 1:
             j+=1
@@ -163,7 +151,7 @@ def check_map_validity(lines):
         sys.exit() 
     #         print (f"{check_validity_nbr}, {j}" )
 
-    print(f"start -> {all_nbr}")
+    #print(f"start -> {all_nbr}")
     return n
     # print(sum(all_nbr))
 
