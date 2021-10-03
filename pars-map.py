@@ -23,25 +23,25 @@ def main():
 
 def is_it_solvable(target, lines):
     puzzle = make_clean_list(lines[1:])
-    start = 0
-    i = 1
-    until = i
-    cycle = []
-    cycle.append(i)
+    blank = puzzle.index(0)
+    blank_offi = target.index(0)
+    target_blank = abs(blank - blank_offi) % 2 
+    inversion = 0
+    print(f"target -> {target}")
     print(f"puzzle -> {puzzle}")
-    print(f"target ->   {target}")
-    while start != until:
-        start = puzzle.index(i)
-        print(f"index de {i} -> {start}, donc {i} est a la place de {target[start]}")
-        i = target[start]
-        cycle.append(i)
-        # i = start
-        print(f"cycle -> {cycle}")
+ 
+    for i in range(len(target)):
+        pos = target[i]
+        target_pos_list = target[i:]
+        target_pos_list = target_pos_list[1:]
+        puzzle_pos_list = puzzle[:puzzle.index(pos)]
+        print(f"target_pos_list -> {target_pos_list}")
+        print(f"pour le numero {pos}")
+        print(f"puzzle_pos_list -> {puzzle_pos_list}")
+        print("---------------------------------------")
+        #comparer les 2 listes, envoyer si puzzle_pos_list, compter cb d'elem sont egalement dans target et add ca au nombre d'inversion ! 
 
-
-    # i = 
-
-    # while s
+ 
 
 def build_target(n):
     a = 0
