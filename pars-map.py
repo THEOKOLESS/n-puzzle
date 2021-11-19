@@ -24,45 +24,37 @@ def main():
 def is_it_solvable(target, lines):
     puzzle = make_clean_list(lines[1:])
     
-    n = int(lines[0])
+    n = int(lines[0]) 
     blank = puzzle.index(0)
     blank_offi = target.index(0)
     target_blank = abs(blank - blank_offi)
-    # if n % 2 == 1:
-    #     blank_offi = target.index(0)
-    #     target_blank = abs(blank - blank_offi)
-    # else:
-    #     blank = (blank + 1 ) /n
-    #     print(int(blank))
-    #     if int(blank) % 2 == 1:
-    #         target_blank = 0
-    #     else:
-    #         target_blank = 1
+
     inversion = 0
-    print(f"target -> {target}")
-    print(f"puzzle -> {puzzle}")
- 
+
     for i in range(len(target)):
         pos = target[i]
         target_pos_list = target[i:]
         target_pos_list = target_pos_list[1:]
         puzzle_pos_list = puzzle[:puzzle.index(pos)]
-        print(f"target_pos_list -> {target_pos_list}")
-        print(f"pour le numero {pos}")
-        print(f"puzzle_pos_list -> {puzzle_pos_list}")
+
 
         for i in target_pos_list:
             inversion += puzzle_pos_list.count(i)
-    print(f"Inversion nbr -> {inversion}")
-    print(f"target blank -> {target_blank}")
-    print("---------------------------------------")
 
-    if target_blank % 2 == inversion % 2:
-        print("solvable")
-    else:
-        print("unsolvable")
+    if n % 2 == 1:
+        if target_blank % 2 == inversion % 2:
+            print(f" n -> {n} and solvable")
+        else:
+            print(f" n -> {n} and UNsolvable")
+    else:   
+        if inversion % 2 == 0:
+            print(f" n -> {n} and solvable")
+        else : 
+            print(f" n -> {n} and UNsolvable")
 
- 
+
+
+    
 
 def build_target(n):
     a = 0
